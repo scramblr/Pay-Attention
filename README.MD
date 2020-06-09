@@ -39,3 +39,6 @@
 YouTube IDs are the characters after the watch?v=. <br />
 So for https://www.youtube.com/watch?v=dQw4w9WgXcQ <br />
 Then _dQw4w9WgXcQ_ would be the ID of the video.
+
+# SMALL FAQ -- DOES THIS INCREASE YOUTUBE VIEWS OF REGULAR VIDEOS??
+It might, but it's not designed for that. there's plenty of other solutions that actually do this well.
