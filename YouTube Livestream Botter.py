@@ -54,7 +54,7 @@ ofrandom = get_random_alphaNumeric_only(22)           # of value, typically 22 i
 vmrandom = get_random_alphaNumeric_only(112)          # vm value, typically 112 in len. includes alpha-upper, alpha-lower, numeric.                        
                                                                                                                                                            
                                                                                                                                                            
-# Uncomment the lines below to debug.                                                                                                                      
+# Comment the lines below to stop debugging. We're geeks, so it's not a fuckin problem.                                                                                                                      
                                                                                                                                                            
 print("Our new 'cpn' value: ",cpnrandom," ...Let's hope its not fucked up!")    # We're gonna generate random cpn's from now on. Google doesn't validate this.                                                                                                                                                        
 print("Our new 'ei' value: ",eirandom," ...Let's hope its not fucked up!")      # We're gonna generate random ei's from now on, too. Again, Google doesn't validate this.                                                                                                                                             
@@ -135,7 +135,7 @@ def bot():
                                                                                                                                                            
                                                                                                                                                            
 time.sleep(7)                                                                                                                                              
-maxthreads = int(input("How many Threads? Recommended: 500 - 1000\n"))                                                                                     
+maxthreads = int(input("How many Threads? Recommended: 200 - Up to 1000 depending on CPU/RAM.\n"))                                                                                     
                                                                                                                                                            
 threading.Thread(target=a.printservice).start()                                                                                                            
 num = 0                                                                                                                                                    
