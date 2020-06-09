@@ -18,7 +18,15 @@
  - Enter an amount of threads
  - See the viewers rise!
 
-# 2.0 Instructions for Windows/Linux (.py / Python)
+# 2.0 Instructions for Windows/Linux (With Python3 setup correctly and in your $PATH)
+ - Download this file to your machine. 
+ - Run it. with python3. 
+ - machine$ python3 scramblr.py 
+ - Enter the YouTube ID and threads
+ - Let her rip. 
+ 
+ - or.
+ 
  - Download the ".py" variant of the program.
  - Double click or right click -> edit with IDLE
  - Press "F5" to run the program
@@ -28,5 +36,6 @@
 
 # 3.0 Whats the ID of a Livestream?
 
-YouTube URLs look something like this => https://www.youtube.com/watch?v=dQw4w9WgXcQ <br />
+YouTube IDs are the characters after the watch?v=. <br />
+So for https://www.youtube.com/watch?v=dQw4w9WgXcQ <br />
 Then _dQw4w9WgXcQ_ would be the ID of the video.
