@@ -10,6 +10,22 @@ import platform
                                                                                                                                                            
 import requests                                                                                                                                            
 from colorama import Fore, init                                                                                                                            
+
+iPhone_UA = ("Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16D57",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.5 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.4 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.2 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 12_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1")
+
                                                                                                                                                            
 intro = """
 
@@ -90,16 +106,18 @@ a = main()
 class proxy():                                                                                                                                             
                                                                                                                                                            
     def update(self):                                                                                                                                      
-        while True:                                                                                                                                        
-            url = "https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=5000&anonymity=elite&ssl=yes"    # made this anonymous/elite only. Can expand to HTTP as well.                                                
-            r = requests.get(url)                                                                                                                          
-                                                                                                                                                           
-            self.splited = r.text.split("\r\n") #scraping and splitting proxies                                                                            
-            time.sleep(600)                                                                                                                                
-                                                                                                                                                           
+        while True:
+            data = ''
+            urls = ["https://raw.githubusercontent.com/TheSpeedX/PROXY-List/master/http.txt","https://api.proxyscrape.com/?request=getproxies&proxytype=http&timeout=10000&ssl=yes","https://www.proxy-list.download/api/v1/get?type=https&anon=elite"]
+            for url in urls:
+                data += requests.get(url).text
+                self.splited += data.split("\r\n") #scraping and splitting proxies
+            time.sleep(600)
+
     def get_proxy(self):                                                                                                                                   
         random1 = random.choice(self.splited) #choose a random proxie                                                                                      
-        return random1                                                                                                                                     
+        return random1
+                                                                                                                                     
     def FormatProxy(self):                                                                                                                                 
             proxyOutput = {'https' :'https://'+self.get_proxy()}                                                                                           
             return proxyOutput                                                                                                                             
@@ -112,10 +130,13 @@ class proxy():
 proxy1 = proxy()                                                                                                                                           
 def bot():                                                                                                                                                 
     while True:                                                                                                                                            
-        try:                                                                                                                                               
+        try:
+            rand_idx = int(random.random() * len(iPhone_UA)) #random iPhone UserAgent
+            ua = str(iPhone_UA[rand_idx]) #ua is a string for our random iPhone UserAgent
+                                                                                                                                               
             s = requests.session()                                                                                                                         
                                                                                                                                                            
-            resp = s.get("https://m.youtube.com/watch?v=" + token,headers={'Host': 'm.youtube.com', 'Proxy-Connection': 'keep-alive', 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1', 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7', 'Accept-Encoding': 'gzip, deflate'},proxies=proxy1.FormatProxy())   # simple get request to youtube for the base URL                                                                                  
+            resp = s.get("https://m.youtube.com/watch?v=" + token + "?disable_polymer=1",headers={'Host': 'm.youtube.com', 'Proxy-Connection': 'keep-alive', 'User-Agent': ua, 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8', 'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7', 'Accept-Encoding': 'gzip, deflate'},proxies=proxy1.FormatProxy())   # simple get request to youtube for the base URL                                                                                  
             url = resp.text.split(r'videostatsWatchtimeUrl\":{\"baseUrl\":\"')[1].split(r'\"}')[0].replace(r"\\u0026",r"&").replace('%2C',",").replace("\/","/")  #getting the base url for parsing                                                                                                                   
             cl = url.split("cl=")[1].split("&")[0] #parsing some infos for the URL                                                                         
             ei = url.split("ei=")[1].split("&")[0]                                                                                                         
@@ -126,7 +147,7 @@ def bot():
 #    This part of the HTTPS request is where we make a web call as an iPhone, and grab *real* values, instead of our bullshit from above. But, we will use our                                                                                                                                                        
 #    bullshit to kick things off so that Google doesn't just block all API calls with *that one specific cpn value*. Same goes for them all.               
                                                                                                                                                            
-            s.get("https://s.youtube.com/api/stats/watchtime?ns=yt&el=detailpage&cpn=" + cpnrandom + "&docid=" + token + "&ver=2&cmt=7334&ei=" + ei + "&fmt=133&fs=0&rt=1003&of=" + of + "&euri&lact=4418&live=dvr&cl=" + cl + "&state=playing&vm=" + vm + "&volume=100&c=MWEB&cver=2.20200529.03.00-new_canary_live&cplayer=UNIPLAYER&cbrand=apple&cbr=Safari%20Mobile&cbrver=13.1.15E148&cmodel=iphone&cos=iPhone&cosver=13_4_1&cplatform=MOBILE&delay=5&hl=en_US&cr=US&rtn=1303&afmt=140&lio=1556394045.182&idpj=&ldpj=&rti=1003&muted=0&st=7334&et=7634",headers={'Host': 's.youtube.com', 'Proxy-Connection': 'keep-alive', 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_4_1 like Mac OS X) AppleWebKit/604.1.34 (KHTML, like Gecko) GSA/36.0.169645775 Mobile/17E262 Safari/604.1', 'Accept': 'image/png,image/svg+xml,image/*;q=0.8,video/*;q=0.8,*/*;q=0.5', 'Accept-Language': 'en-US,en;q=0.8,en-US;q=0.5,en;q=0.3', 'Referer': 'https://m.youtube.com/watch?v=' + token},proxies=proxy1.FormatProxy())   # API GET request                                                                                
+            s.get("https://s.youtube.com/api/stats/watchtime?ns=yt&el=detailpage&cpn=" + cpnrandom + "&docid=" + token + "&ver=2&cmt=7334&ei=" + ei + "&fmt=133&fs=0&rt=1003&of=" + of + "&euri&lact=4418&live=dvr&cl=" + cl + "&state=playing&vm=" + vm + "&volume=100&c=MWEB&cver=2.20200529.03.00-new_canary_live&cplayer=UNIPLAYER&cbrand=apple&cbr=Safari%20Mobile&cbrver=13.1.15E148&cmodel=iphone&cos=iPhone&cosver=13_4_1&cplatform=MOBILE&delay=5&hl=en_US&cr=US&rtn=1303&afmt=140&lio=1556394045.182&idpj=&ldpj=&rti=1003&muted=0&st=7334&et=7634",headers={'Host': 's.youtube.com', 'Proxy-Connection': 'keep-alive', 'User-Agent': ua, 'Accept': 'image/png,image/svg+xml,image/*;q=0.8,video/*;q=0.8,*/*;q=0.5', 'Accept-Language': 'en-US,en;q=0.8,en-US;q=0.5,en;q=0.3', 'Referer': 'https://m.youtube.com/watch?v=' + token},proxies=proxy1.FormatProxy())   # API GET request                                                                                
                                                                                                                                                            
                                                                                                                                                            
             a.botted += 1                                                                                                                                  
